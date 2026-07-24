@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Statiq Icebreakers</title>
+<style>
+  :root {
+    --orange: #ff3d00;
+    --lilac: #a896fa;
+    --yellow: #febf45;
+    --aqua: #0098a7;
+    --dark-blue: #122644;
+    --dark-green: #154524;
+    --paper: #fbf7f0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    font-family: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+    background: var(--dark-blue);
+    color: var(--paper);
+    overflow: hidden;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(16px, 4vw, 40px);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(168,150,250,0.25), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(255,61,0,0.20), transparent 50%),
+      var(--dark-blue);
+  }
+
+  .stage {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .top-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand {
+    font-size: clamp(13px, 2vw, 16px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange);
+    font-weight: 700;
+  }
+
+  .lang-toggle {
+    display: flex;
+    border: 2px solid rgba(251,247,240,0.25);
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(251,247,240,0.05);
+  }
+
+  .lang-toggle button {
+    border: none;
+    background: transparent;
+    color: var(--paper);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .lang-toggle button.active {
+    background: var(--yellow);
+    color: var(--dark-blue);
+  }
+
+  .card {
+    position: relative;
+    width: 100%;
+    min-height: 280px;
+    background: var(--paper);
+    color: var(--dark-blue);
+    border-radius: 28px;
+    padding: clamp(28px, 6vw, 48px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+    border: 3px solid rgba(255,255,255,0.08);
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    top: -3px; left: -3px; right: -3px; bottom: -3px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, var(--orange), var(--lilac), var(--aqua));
+    z-index: -1;
+    opacity: 0.9;
+  }
+
+  .question {
+    font-size: clamp(22px, 4.2vw, 32px);
+    font-weight: 700;
+    line-height: 1.28;
+    min-height: 2.6em;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  .question.swap {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  .counter {
+    font-size: 12px;
+    color: rgba(18,38,68,0.45);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .action-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .next-btn {
+    font-family: inherit;
+    font-size: clamp(16px, 2.6vw, 19px);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--dark-blue);
+    background: var(--lilac);
+    border: none;
+    border-radius: 999px;
+    padding: 16px 40px;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(168,150,250,0.35);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  }
+
+  .next-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(168,150,250,0.45);
+  }
+
+  .next-btn:active {
+    transform: translateY(0px) scale(0.98);
+  }
+
+  @media (max-width: 420px) {
+    .top-row { flex-direction: column; gap: 12px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="top-row">
+    <div class="brand" id="brandLabel">STATIQ · ICEBREAKERS</div>
+    <div class="lang-toggle">
+      <button id="btnES" class="active">ES</button>
+      <button id="btnEN">EN</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="question" id="question"></div>
+    <div class="counter" id="counter"></div>
+  </div>
+
+  <div class="action-row">
+    <button class="next-btn" id="nextBtn"></button>
+  </div>
+</div>
+
+<script>
+const DATA = {
+  es: {
+    brand: "STATIQ · ICEBREAKERS",
+    button: "Nueva pregunta →",
+    footnote: "Para cuando la conversación necesita un empujón 👋",
+    tags: { fun: "DIVERTIDA", work: "TRABAJO" },
+    questions: [
+      { type: "fun", text: "Si tuvieras que comer una sola comida el resto de tu vida, ¿cuál sería?" },
+      { type: "fun", text: "¿Cuál es la serie o película que has visto más veces?" },
+      { type: "fun", text: "Si pudieras teletransportarte a cualquier lugar ahora mismo, ¿a dónde irías?" },
+      { type: "fun", text: "¿Cuál fue tu primer trabajo (aunque no tenga nada que ver con esto)?" },
+      { type: "fun", text: "¿Perro o gato? Y si tenés uno, mostralo en cámara." },
+      { type: "fun", text: "¿Cuál es tu snack favorito para una tarde de mucho trabajo?" },
+      { type: "fun", text: "Si pudieras aprender una habilidad al instante, ¿cuál elegirías?" },
+      { type: "fun", text: "¿Cuál es la playlist o canción que no puede faltar en tu día?" },
+      { type: "fun", text: "¿Ciudad o playa para unas vacaciones ideales?" },
+      { type: "fun", text: "Si tuvieras un superpoder solo para el trabajo, ¿cuál sería?" },
+      { type: "fun", text: "¿Cuál es tu comida favorita para pedir delivery?" },
+      { type: "fun", text: "¿Cuál es un hobby que tenías de chico y te gustaría retomar?" },
+      { type: "fun", text: "¿Qué juego de mesa o videojuego jugarías ahora mismo si pudieras?" },
+      { type: "fun", text: "¿Cuál fue el mejor concierto o evento al que fuiste?" },
+      { type: "fun", text: "Si pudieras cenar con cualquier persona (viva o no), ¿quién sería?" },
+      { type: "work", text: "¿Cuál es tu horario ideal de productividad?" },
+      { type: "work", text: "¿Cuál fue el mejor consejo profesional que te dieron?" },
+      { type: "work", text: "¿Cuál es tu método favorito para organizarte (lista, calendario, notas)?" },
+      { type: "work", text: "Si pudieras cambiar de rol por una semana, ¿cuál elegirías dentro de la empresa?" },
+      { type: "work", text: "¿Qué habilidad te gustaría desarrollar este año?" },
+      { type: "work", text: "Si tuvieras que describir a tu equipo en 3 palabras, ¿cuáles serían?" },
+      { type: "work", text: "¿Qué parte de tu trabajo explicarías con más entusiasmo a alguien nuevo?" },
+      { type: "work", text: "¿Qué costumbre de trabajo remoto no cambiarías por nada?" }
+    ]
+  },
+  en: {
+    brand: "STATIQ · ICEBREAKERS",
+    button: "New question →",
+    footnote: "For when the conversation needs a little push 👋",
+    tags: { fun: "FUN", work: "WORK" },
+    questions: [
+      { type: "fun", text: "If you had to eat one meal for the rest of your life, what would it be?" },
+      { type: "fun", text: "What show or movie have you rewatched the most?" },
+      { type: "fun", text: "If you could teleport anywhere right now, where would you go?" },
+      { type: "fun", text: "What was your first job (even if totally unrelated to this)?" },
+      { type: "fun", text: "Dog or cat person? If you have one, show it on camera." },
+      { type: "fun", text: "What's your go-to snack for a heavy work afternoon?" },
+      { type: "fun", text: "If you could instantly learn one skill, what would you pick?" },
+      { type: "fun", text: "What song or playlist gets you through the day?" },
+      { type: "fun", text: "City or beach for your ideal vacation?" },
+      { type: "fun", text: "If you had a superpower just for work, what would it be?" },
+      { type: "fun", text: "What's your favorite delivery food order?" },
+      { type: "fun", text: "What's a childhood hobby you'd like to pick back up?" },
+      { type: "fun", text: "What board game or video game would you play right now if you could?" },
+      { type: "fun", text: "What's the best concert or event you've been to?" },
+      { type: "fun", text: "If you could have dinner with anyone, living or not, who would it be?" },
+      { type: "work", text: "What's your ideal productivity schedule?" },
+      { type: "work", text: "What's the best professional advice you've ever gotten?" },
+      { type: "work", text: "What's your go-to way to stay organized (list, calendar, notes)?" },
+      { type: "work", text: "If you could swap roles for a week, which one would you pick?" },
+      { type: "work", text: "What skill would you like to grow this year?" },
+      { type: "work", text: "If you had to describe your team in 3 words, what would they be?" },
+      { type: "work", text: "What part of your job would you explain most enthusiastically to someone new?" },
+      { type: "work", text: "What remote work habit would you never give up?" }
+    ]
+  }
+};
+
+let lang = "es";
+let deck = [];
+let deckIndex = 0;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function resetDeck() {
+  deck = shuffle(DATA[lang].questions);
+  deckIndex = 0;
+}
+
+function applyStaticText() {
+  const d = DATA[lang];
+  document.getElementById("brandLabel").textContent = d.brand;
+  document.getElementById("nextBtn").textContent = d.button;
+  document.documentElement.lang = lang;
+}
+
+function renderCurrent(animate) {
+  const d = DATA[lang];
+  const item = deck[deckIndex];
+  const qEl = document.getElementById("question");
+  const counterEl = document.getElementById("counter");
+
+  const update = () => {
+    qEl.textContent = item.text;
+    counterEl.textContent = (deckIndex + 1) + " / " + deck.length;
+  };
+
+  if (animate) {
+    qEl.classList.add("swap");
+    setTimeout(() => {
+      update();
+      qEl.classList.remove("swap");
+    }, 140);
+  } else {
+    update();
+  }
+}
+
+function nextQuestion() {
+  deckIndex++;
+  if (deckIndex >= deck.length) {
+    resetDeck();
+  }
+  renderCurrent(true);
+}
+
+function setLang(newLang) {
+  if (lang === newLang) return;
+  lang = newLang;
+  document.getElementById("btnES").classList.toggle("active", lang === "es");
+  document.getElementById("btnEN").classList.toggle("active", lang === "en");
+  applyStaticText();
+  resetDeck();
+  renderCurrent(false);
+}
+
+document.getElementById("btnES").addEventListener("click", () => setLang("es"));
+document.getElementById("btnEN").addEventListener("click", () => setLang("en"));
+document.getElementById("nextBtn").addEventListener("click", nextQuestion);
+
+applyStaticText();
+resetDeck();
+renderCurrent(false);
+</script>
+
+</body>
+</html>
