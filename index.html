@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,12 +22,12 @@
     font-family: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
     background: var(--dark-blue);
     color: var(--paper);
-    overflow: hidden;
   }
 
   body {
+    min-height: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     padding: clamp(16px, 4vw, 40px);
     background:
@@ -42,7 +42,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 18px;
+    padding-top: clamp(8px, 3vh, 24px);
   }
 
   .top-row {
@@ -50,6 +51,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
   }
 
   .brand {
@@ -58,6 +61,12 @@
     text-transform: uppercase;
     color: var(--orange);
     font-weight: 700;
+  }
+
+  .top-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   .lang-toggle {
@@ -86,10 +95,64 @@
     color: var(--dark-blue);
   }
 
+  /* Tabs */
+  .tabs {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+  }
+
+  .tab-btn {
+    flex: 1;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: rgba(251,247,240,0.55);
+    background: rgba(251,247,240,0.06);
+    border: 2px solid rgba(251,247,240,0.12);
+    border-radius: 14px;
+    padding: 12px 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .tab-btn.active {
+    color: var(--dark-blue);
+    background: var(--paper);
+    border-color: var(--paper);
+  }
+
+  .panel { width: 100%; display: none; flex-direction: column; align-items: center; gap: 18px; }
+  .panel.active { display: flex; }
+
+  /* Game card */
+  .timer-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .timer {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--paper);
+    background: rgba(251,247,240,0.08);
+    border: 2px solid rgba(251,247,240,0.18);
+    border-radius: 999px;
+    padding: 8px 20px;
+  }
+
+  .timer.done {
+    opacity: 0.5;
+  }
+
   .card {
     position: relative;
     width: 100%;
-    min-height: 280px;
+    min-height: 260px;
     background: var(--paper);
     color: var(--dark-blue);
     border-radius: 28px;
@@ -164,8 +227,196 @@
     transform: translateY(0px) scale(0.98);
   }
 
+  /* Checklist */
+  .checklist-card {
+    width: 100%;
+    background: var(--paper);
+    color: var(--dark-blue);
+    border-radius: 24px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  .checklist-hint {
+    font-size: 12px;
+    color: rgba(18,38,68,0.5);
+    padding: 4px 4px 12px;
+  }
+
+  .dept-group {
+    margin-top: 10px;
+  }
+
+  .dept-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--aqua);
+    padding: 6px 4px;
+  }
+
+  .person-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.12s ease;
+  }
+
+  .person-row:hover { background: rgba(18,38,68,0.04); }
+
+  .checkbox {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    border: 2px solid rgba(18,38,68,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.12s ease;
+  }
+
+  .checkbox.checked {
+    background: var(--orange);
+    border-color: var(--orange);
+  }
+
+  .checkbox svg { width: 13px; height: 13px; display: none; }
+  .checkbox.checked svg { display: block; }
+
+  .person-name {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .person-row.checked .person-name {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  .empty-state {
+    font-size: 14px;
+    color: rgba(18,38,68,0.5);
+    padding: 20px 4px;
+    text-align: center;
+  }
+
+  /* Admin */
+  .admin-link {
+    font-size: 11px;
+    color: rgba(251,247,240,0.25);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    font-family: inherit;
+  }
+
+  .admin-gate {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--paper);
+    color: var(--dark-blue);
+    border-radius: 20px;
+    padding: 24px;
+  }
+
+  .admin-gate input {
+    font-family: inherit;
+    font-size: 15px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 2px solid rgba(18,38,68,0.15);
+    background: white;
+    color: var(--dark-blue);
+  }
+
+  .admin-gate button, .admin-form button {
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    background: var(--dark-blue);
+    color: var(--paper);
+    cursor: pointer;
+  }
+
+  .admin-error {
+    font-size: 13px;
+    color: var(--orange);
+    display: none;
+  }
+
+  .admin-panel {
+    width: 100%;
+    background: var(--paper);
+    color: var(--dark-blue);
+    border-radius: 20px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-height: 65vh;
+    overflow-y: auto;
+  }
+
+  .admin-form {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(18,38,68,0.1);
+  }
+
+  .admin-form input {
+    font-family: inherit;
+    font-size: 14px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 2px solid rgba(18,38,68,0.15);
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .admin-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 4px;
+    border-bottom: 1px solid rgba(18,38,68,0.06);
+    font-size: 14px;
+  }
+
+  .admin-row-info { display: flex; flex-direction: column; }
+  .admin-row-name { font-weight: 700; }
+  .admin-row-dept { font-size: 12px; color: rgba(18,38,68,0.5); }
+
+  .delete-btn {
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--orange);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 8px;
+  }
+
   @media (max-width: 420px) {
-    .top-row { flex-direction: column; gap: 12px; align-items: flex-start; }
+    .top-row { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
@@ -174,91 +425,140 @@
 <div class="stage">
   <div class="top-row">
     <div class="brand" id="brandLabel">STATIQ · ICEBREAKERS</div>
-    <div class="lang-toggle">
-      <button id="btnES" class="active">ES</button>
-      <button id="btnEN">EN</button>
+    <div class="top-controls">
+      <div class="lang-toggle">
+        <button id="btnEN" class="active">EN</button>
+        <button id="btnES">ES</button>
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="question" id="question"></div>
-    <div class="counter" id="counter"></div>
+  <div class="tabs">
+    <button class="tab-btn active" id="tabGame">Game</button>
+    <button class="tab-btn" id="tabChecklist">Who I've Met</button>
   </div>
 
-  <div class="action-row">
-    <button class="next-btn" id="nextBtn"></button>
+  <!-- GAME PANEL -->
+  <div class="panel active" id="panelGame">
+    <div class="timer-row">
+      <div class="timer" id="timer">15:00</div>
+    </div>
+
+    <div class="card">
+      <div class="question" id="question"></div>
+      <div class="counter" id="counter"></div>
+    </div>
+
+    <div class="action-row">
+      <button class="next-btn" id="nextBtn"></button>
+    </div>
+  </div>
+
+  <!-- CHECKLIST PANEL -->
+  <div class="panel" id="panelChecklist">
+    <div class="checklist-card" id="checklistCard">
+      <div class="checklist-hint" id="checklistHint">Tap a name once you've met them.</div>
+      <div id="checklistList"></div>
+    </div>
+  </div>
+
+  <button class="admin-link" id="adminLink">·</button>
+
+  <!-- ADMIN PANEL (hidden until unlocked) -->
+  <div class="admin-gate" id="adminGate" style="display:none;">
+    <input type="password" id="adminPasswordInput" placeholder="Admin password">
+    <button id="adminSubmit">Unlock</button>
+    <div class="admin-error" id="adminError">Incorrect password.</div>
+  </div>
+
+  <div class="admin-panel" id="adminPanel" style="display:none;">
+    <div class="admin-form">
+      <input type="text" id="adminNameInput" placeholder="Full name">
+      <input type="text" id="adminDeptInput" placeholder="Department">
+      <button id="adminAddBtn">Add</button>
+    </div>
+    <div id="adminList"></div>
   </div>
 </div>
 
-<script>
-const DATA = {
-  es: {
-    brand: "STATIQ · ICEBREAKERS",
-    button: "Nueva pregunta →",
-    footnote: "Para cuando la conversación necesita un empujón 👋",
-    tags: { fun: "DIVERTIDA", work: "TRABAJO" },
-    questions: [
-      { type: "fun", text: "Si tuvieras que comer una sola comida el resto de tu vida, ¿cuál sería?" },
-      { type: "fun", text: "¿Cuál es la serie o película que has visto más veces?" },
-      { type: "fun", text: "Si pudieras teletransportarte a cualquier lugar ahora mismo, ¿a dónde irías?" },
-      { type: "fun", text: "¿Cuál fue tu primer trabajo (aunque no tenga nada que ver con esto)?" },
-      { type: "fun", text: "¿Perro o gato? Y si tenés uno, mostralo en cámara." },
-      { type: "fun", text: "¿Cuál es tu snack favorito para una tarde de mucho trabajo?" },
-      { type: "fun", text: "Si pudieras aprender una habilidad al instante, ¿cuál elegirías?" },
-      { type: "fun", text: "¿Cuál es la playlist o canción que no puede faltar en tu día?" },
-      { type: "fun", text: "¿Ciudad o playa para unas vacaciones ideales?" },
-      { type: "fun", text: "Si tuvieras un superpoder solo para el trabajo, ¿cuál sería?" },
-      { type: "fun", text: "¿Cuál es tu comida favorita para pedir delivery?" },
-      { type: "fun", text: "¿Cuál es un hobby que tenías de chico y te gustaría retomar?" },
-      { type: "fun", text: "¿Qué juego de mesa o videojuego jugarías ahora mismo si pudieras?" },
-      { type: "fun", text: "¿Cuál fue el mejor concierto o evento al que fuiste?" },
-      { type: "fun", text: "Si pudieras cenar con cualquier persona (viva o no), ¿quién sería?" },
-      { type: "work", text: "¿Cuál es tu horario ideal de productividad?" },
-      { type: "work", text: "¿Cuál fue el mejor consejo profesional que te dieron?" },
-      { type: "work", text: "¿Cuál es tu método favorito para organizarte (lista, calendario, notas)?" },
-      { type: "work", text: "Si pudieras cambiar de rol por una semana, ¿cuál elegirías dentro de la empresa?" },
-      { type: "work", text: "¿Qué habilidad te gustaría desarrollar este año?" },
-      { type: "work", text: "Si tuvieras que describir a tu equipo en 3 palabras, ¿cuáles serían?" },
-      { type: "work", text: "¿Qué parte de tu trabajo explicarías con más entusiasmo a alguien nuevo?" },
-      { type: "work", text: "¿Qué costumbre de trabajo remoto no cambiarías por nada?" }
-    ]
-  },
-  en: {
-    brand: "STATIQ · ICEBREAKERS",
-    button: "New question →",
-    footnote: "For when the conversation needs a little push 👋",
-    tags: { fun: "FUN", work: "WORK" },
-    questions: [
-      { type: "fun", text: "If you had to eat one meal for the rest of your life, what would it be?" },
-      { type: "fun", text: "What show or movie have you rewatched the most?" },
-      { type: "fun", text: "If you could teleport anywhere right now, where would you go?" },
-      { type: "fun", text: "What was your first job (even if totally unrelated to this)?" },
-      { type: "fun", text: "Dog or cat person? If you have one, show it on camera." },
-      { type: "fun", text: "What's your go-to snack for a heavy work afternoon?" },
-      { type: "fun", text: "If you could instantly learn one skill, what would you pick?" },
-      { type: "fun", text: "What song or playlist gets you through the day?" },
-      { type: "fun", text: "City or beach for your ideal vacation?" },
-      { type: "fun", text: "If you had a superpower just for work, what would it be?" },
-      { type: "fun", text: "What's your favorite delivery food order?" },
-      { type: "fun", text: "What's a childhood hobby you'd like to pick back up?" },
-      { type: "fun", text: "What board game or video game would you play right now if you could?" },
-      { type: "fun", text: "What's the best concert or event you've been to?" },
-      { type: "fun", text: "If you could have dinner with anyone, living or not, who would it be?" },
-      { type: "work", text: "What's your ideal productivity schedule?" },
-      { type: "work", text: "What's the best professional advice you've ever gotten?" },
-      { type: "work", text: "What's your go-to way to stay organized (list, calendar, notes)?" },
-      { type: "work", text: "If you could swap roles for a week, which one would you pick?" },
-      { type: "work", text: "What skill would you like to grow this year?" },
-      { type: "work", text: "If you had to describe your team in 3 words, what would they be?" },
-      { type: "work", text: "What part of your job would you explain most enthusiastically to someone new?" },
-      { type: "work", text: "What remote work habit would you never give up?" }
-    ]
-  }
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
+  collection, getDocs, onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBXlTWYOEW3DIjbIvvS8d8pc1EWuLncyA4",
+  authDomain: "statiq-icebreakers.firebaseapp.com",
+  projectId: "statiq-icebreakers",
+  storageBucket: "statiq-icebreakers.firebasestorage.app",
+  messagingSenderId: "190154782501",
+  appId: "1:190154782501:web:eb679280756716cb54cccc"
 };
 
-let lang = "es";
-let deck = [];
-let deckIndex = 0;
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const ADMIN_PASSWORD = "6Qv4Jg8l[1";
+
+/* ---------------- Local identity (no login) ---------------- */
+function getOrCreateLocalId() {
+  let id = localStorage.getItem("statiq_ib_uid");
+  if (!id) {
+    id = "u_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+    localStorage.setItem("statiq_ib_uid", id);
+  }
+  return id;
+}
+const localId = getOrCreateLocalId();
+
+/* ---------------- Session id: date + hour ---------------- */
+function getSessionId() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, "0");
+  const d = String(now.getDate()).padStart(2, "0");
+  const h = String(now.getHours()).padStart(2, "0");
+  return `STATIQ2026-${y}-${m}-${d}-${h}`;
+}
+const sessionId = getSessionId();
+
+/* ---------------- Question data (paired EN/ES, shared index) ---------------- */
+const QUESTIONS = [
+  { type: "fun", en: "If you had to eat one meal for the rest of your life, what would it be?", es: "Si tuvieras que comer una sola comida el resto de tu vida, ¿cuál sería?" },
+  { type: "fun", en: "What show or movie have you rewatched the most?", es: "¿Cuál es la serie o película que has visto más veces?" },
+  { type: "fun", en: "If you could teleport anywhere right now, where would you go?", es: "Si pudieras teletransportarte a cualquier lugar ahora mismo, ¿a dónde irías?" },
+  { type: "fun", en: "What was your first job (even if totally unrelated to this)?", es: "¿Cuál fue tu primer trabajo (aunque no tenga nada que ver con esto)?" },
+  { type: "fun", en: "Dog or cat person? If you have one, show it on camera.", es: "¿Perro o gato? Y si tenés uno, mostralo en cámara." },
+  { type: "fun", en: "What's your go-to snack for a heavy work afternoon?", es: "¿Cuál es tu snack favorito para una tarde de mucho trabajo?" },
+  { type: "fun", en: "If you could instantly learn one skill, what would you pick?", es: "Si pudieras aprender una habilidad al instante, ¿cuál elegirías?" },
+  { type: "fun", en: "What song or playlist gets you through the day?", es: "¿Cuál es la playlist o canción que no puede faltar en tu día?" },
+  { type: "fun", en: "City or beach for your ideal vacation?", es: "¿Ciudad o playa para unas vacaciones ideales?" },
+  { type: "fun", en: "If you had a superpower just for work, what would it be?", es: "Si tuvieras un superpoder solo para el trabajo, ¿cuál sería?" },
+  { type: "fun", en: "What's your favorite delivery food order?", es: "¿Cuál es tu comida favorita para pedir delivery?" },
+  { type: "fun", en: "What's a childhood hobby you'd like to pick back up?", es: "¿Cuál es un hobby que tenías de chico y te gustaría retomar?" },
+  { type: "fun", en: "What board game or video game would you play right now if you could?", es: "¿Qué juego de mesa o videojuego jugarías ahora mismo si pudieras?" },
+  { type: "fun", en: "What's the best concert or event you've been to?", es: "¿Cuál fue el mejor concierto o evento al que fuiste?" },
+  { type: "fun", en: "If you could have dinner with anyone, living or not, who would it be?", es: "Si pudieras cenar con cualquier persona (viva o no), ¿quién sería?" },
+  { type: "work", en: "What's your ideal productivity schedule?", es: "¿Cuál es tu horario ideal de productividad?" },
+  { type: "work", en: "What's the best professional advice you've ever gotten?", es: "¿Cuál fue el mejor consejo profesional que te dieron?" },
+  { type: "work", en: "What's your go-to way to stay organized (list, calendar, notes)?", es: "¿Cuál es tu método favorito para organizarte (lista, calendario, notas)?" },
+  { type: "work", en: "If you could swap roles for a week, which one would you pick?", es: "Si pudieras cambiar de rol por una semana, ¿cuál elegirías dentro de la empresa?" },
+  { type: "work", en: "What skill would you like to grow this year?", es: "¿Qué habilidad te gustaría desarrollar este año?" },
+  { type: "work", en: "If you had to describe your team in 3 words, what would they be?", es: "Si tuvieras que describir a tu equipo en 3 palabras, ¿cuáles serían?" },
+  { type: "work", en: "What part of your job would you explain most enthusiastically to someone new?", es: "¿Qué parte de tu trabajo explicarías con más entusiasmo a alguien nuevo?" },
+  { type: "work", en: "What remote work habit would you never give up?", es: "¿Qué costumbre de trabajo remoto no cambiarías por nada?" }
+];
+
+const TEXT = {
+  en: { brand: "STATIQ · ICEBREAKERS", button: "New question →", tabGame: "Game", tabChecklist: "Who I've Met", hint: "Tap a name once you've met them.", empty: "No one else has joined yet." },
+  es: { brand: "STATIQ · ICEBREAKERS", button: "Nueva pregunta →", tabGame: "Juego", tabChecklist: "A quién conocí", hint: "Tocá un nombre cuando lo hayas conocido.", empty: "Todavía no se unió nadie más." }
+};
+
+let lang = "en";
+let order = []; // shuffled indices into QUESTIONS
+let currentIndex = 0; // position within `order`
 
 function shuffle(arr) {
   const a = [...arr];
@@ -269,65 +569,250 @@ function shuffle(arr) {
   return a;
 }
 
-function resetDeck() {
-  deck = shuffle(DATA[lang].questions);
-  deckIndex = 0;
+/* ---------------- Firestore: session doc (question index + timer) ---------------- */
+const sessionRef = doc(db, "sessions", sessionId);
+
+async function ensureSession() {
+  const snap = await getDoc(sessionRef);
+  if (!snap.exists()) {
+    const newOrder = shuffle(QUESTIONS.map((_, i) => i));
+    await setDoc(sessionRef, {
+      order: newOrder,
+      pos: 0,
+      timerStart: Date.now(),
+      timerDurationMs: 15 * 60 * 1000
+    });
+  }
 }
 
-function applyStaticText() {
-  const d = DATA[lang];
-  document.getElementById("brandLabel").textContent = d.brand;
-  document.getElementById("nextBtn").textContent = d.button;
-  document.documentElement.lang = lang;
-}
-
-function renderCurrent(animate) {
-  const d = DATA[lang];
-  const item = deck[deckIndex];
+function renderQuestion(data) {
+  order = data.order;
+  currentIndex = data.pos;
   const qEl = document.getElementById("question");
   const counterEl = document.getElementById("counter");
-
-  const update = () => {
-    qEl.textContent = item.text;
-    counterEl.textContent = (deckIndex + 1) + " / " + deck.length;
-  };
-
-  if (animate) {
-    qEl.classList.add("swap");
-    setTimeout(() => {
-      update();
-      qEl.classList.remove("swap");
-    }, 140);
-  } else {
-    update();
-  }
+  const qIdx = order[currentIndex % order.length];
+  const item = QUESTIONS[qIdx];
+  qEl.textContent = item[lang];
+  counterEl.textContent = (currentIndex % order.length + 1) + " / " + order.length;
 }
 
-function nextQuestion() {
-  deckIndex++;
-  if (deckIndex >= deck.length) {
-    resetDeck();
+let timerInterval = null;
+function renderTimer(data) {
+  const timerEl = document.getElementById("timer");
+  const elapsed = Date.now() - data.timerStart;
+  const remaining = Math.max(0, data.timerDurationMs - elapsed);
+  const mins = Math.floor(remaining / 60000);
+  const secs = Math.floor((remaining % 60000) / 1000);
+  timerEl.textContent = `${String(mins).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
+  timerEl.classList.toggle("done", remaining <= 0);
+}
+
+let latestSessionData = null;
+
+onSnapshot(sessionRef, (snap) => {
+  if (!snap.exists()) return;
+  latestSessionData = snap.data();
+  renderQuestion(latestSessionData);
+  renderTimer(latestSessionData);
+});
+
+if (!timerInterval) {
+  timerInterval = setInterval(() => {
+    if (latestSessionData) renderTimer(latestSessionData);
+  }, 1000);
+}
+
+async function nextQuestion() {
+  if (!latestSessionData) return;
+  let newPos = latestSessionData.pos + 1;
+  let newOrder = latestSessionData.order;
+  if (newPos >= newOrder.length) {
+    newOrder = shuffle(QUESTIONS.map((_, i) => i));
+    newPos = 0;
   }
-  renderCurrent(true);
+  await updateDoc(sessionRef, { order: newOrder, pos: newPos });
+}
+
+document.getElementById("nextBtn").addEventListener("click", nextQuestion);
+
+/* ---------------- Language toggle (same index, different text) ---------------- */
+function applyStaticText() {
+  const t = TEXT[lang];
+  document.getElementById("brandLabel").textContent = t.brand;
+  document.getElementById("nextBtn").textContent = t.button;
+  document.getElementById("tabGame").textContent = t.tabGame;
+  document.getElementById("tabChecklist").textContent = t.tabChecklist;
+  document.getElementById("checklistHint").textContent = t.hint;
+  document.documentElement.lang = lang;
 }
 
 function setLang(newLang) {
   if (lang === newLang) return;
   lang = newLang;
-  document.getElementById("btnES").classList.toggle("active", lang === "es");
   document.getElementById("btnEN").classList.toggle("active", lang === "en");
+  document.getElementById("btnES").classList.toggle("active", lang === "es");
   applyStaticText();
-  resetDeck();
-  renderCurrent(false);
+  if (latestSessionData) renderQuestion(latestSessionData);
+  renderChecklist();
 }
 
-document.getElementById("btnES").addEventListener("click", () => setLang("es"));
 document.getElementById("btnEN").addEventListener("click", () => setLang("en"));
-document.getElementById("nextBtn").addEventListener("click", nextQuestion);
+document.getElementById("btnES").addEventListener("click", () => setLang("es"));
 
-applyStaticText();
-resetDeck();
-renderCurrent(false);
+/* ---------------- Tabs ---------------- */
+document.getElementById("tabGame").addEventListener("click", () => switchTab("game"));
+document.getElementById("tabChecklist").addEventListener("click", () => switchTab("checklist"));
+
+function switchTab(tab) {
+  document.getElementById("tabGame").classList.toggle("active", tab === "game");
+  document.getElementById("tabChecklist").classList.toggle("active", tab === "checklist");
+  document.getElementById("panelGame").classList.toggle("active", tab === "game");
+  document.getElementById("panelChecklist").classList.toggle("active", tab === "checklist");
+}
+
+/* ---------------- Roster (from Firestore) ---------------- */
+let roster = []; // {id, name, dept}
+
+async function loadRoster() {
+  const snap = await getDocs(collection(db, "roster"));
+  roster = [];
+  snap.forEach(d => roster.push({ id: d.id, ...d.data() }));
+  renderChecklist();
+  renderAdminList();
+}
+
+/* ---------------- Checklist (private per-person) ---------------- */
+let myChecks = {}; // personId -> true
+
+function checklistDocId() {
+  return `${localId}_${sessionId}`;
+}
+
+async function loadMyChecklist() {
+  const ref = doc(db, "checklists", checklistDocId());
+  const snap = await getDoc(ref);
+  if (snap.exists()) {
+    myChecks = snap.data().checked || {};
+  } else {
+    myChecks = {};
+  }
+  renderChecklist();
+}
+
+async function toggleCheck(personId) {
+  myChecks[personId] = !myChecks[personId];
+  renderChecklist();
+  const ref = doc(db, "checklists", checklistDocId());
+  await setDoc(ref, { ownerId: localId, sessionId, checked: myChecks }, { merge: true });
+}
+
+function renderChecklist() {
+  const listEl = document.getElementById("checklistList");
+  listEl.innerHTML = "";
+
+  const others = roster.filter(p => p.id !== localId && p.name); // show everyone except self by id match attempt (best effort, no self-detection without login)
+
+  if (roster.length === 0) {
+    listEl.innerHTML = `<div class="empty-state">${TEXT[lang].empty}</div>`;
+    return;
+  }
+
+  const byDept = {};
+  roster.forEach(p => {
+    if (!byDept[p.dept]) byDept[p.dept] = [];
+    byDept[p.dept].push(p);
+  });
+
+  Object.keys(byDept).sort().forEach(dept => {
+    const groupEl = document.createElement("div");
+    groupEl.className = "dept-group";
+    const label = document.createElement("div");
+    label.className = "dept-label";
+    label.textContent = dept;
+    groupEl.appendChild(label);
+
+    byDept[dept].forEach(p => {
+      const row = document.createElement("div");
+      const checked = !!myChecks[p.id];
+      row.className = "person-row" + (checked ? " checked" : "");
+      row.innerHTML = `
+        <div class="checkbox ${checked ? "checked" : ""}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <div class="person-name">${p.name}</div>
+      `;
+      row.addEventListener("click", () => toggleCheck(p.id));
+      groupEl.appendChild(row);
+    });
+
+    listEl.appendChild(groupEl);
+  });
+}
+
+/* ---------------- Admin ---------------- */
+document.getElementById("adminLink").addEventListener("click", () => {
+  const gate = document.getElementById("adminGate");
+  gate.style.display = gate.style.display === "none" ? "flex" : "none";
+});
+
+document.getElementById("adminSubmit").addEventListener("click", tryAdminUnlock);
+document.getElementById("adminPasswordInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") tryAdminUnlock();
+});
+
+function tryAdminUnlock() {
+  const input = document.getElementById("adminPasswordInput").value;
+  const errorEl = document.getElementById("adminError");
+  if (input === ADMIN_PASSWORD) {
+    document.getElementById("adminGate").style.display = "none";
+    document.getElementById("adminPanel").style.display = "flex";
+    errorEl.style.display = "none";
+  } else {
+    errorEl.style.display = "block";
+  }
+}
+
+document.getElementById("adminAddBtn").addEventListener("click", async () => {
+  const nameInput = document.getElementById("adminNameInput");
+  const deptInput = document.getElementById("adminDeptInput");
+  const name = nameInput.value.trim();
+  const dept = deptInput.value.trim();
+  if (!name || !dept) return;
+  const id = "p_" + Math.random().toString(36).slice(2, 10);
+  await setDoc(doc(db, "roster", id), { name, dept });
+  nameInput.value = "";
+  deptInput.value = "";
+  await loadRoster();
+});
+
+function renderAdminList() {
+  const listEl = document.getElementById("adminList");
+  listEl.innerHTML = "";
+  roster.slice().sort((a,b) => a.dept.localeCompare(b.dept) || a.name.localeCompare(b.name)).forEach(p => {
+    const row = document.createElement("div");
+    row.className = "admin-row";
+    row.innerHTML = `
+      <div class="admin-row-info">
+        <div class="admin-row-name">${p.name}</div>
+        <div class="admin-row-dept">${p.dept}</div>
+      </div>
+      <button class="delete-btn">Delete</button>
+    `;
+    row.querySelector(".delete-btn").addEventListener("click", async () => {
+      await deleteDoc(doc(db, "roster", p.id));
+      await loadRoster();
+    });
+    listEl.appendChild(row);
+  });
+}
+
+/* ---------------- Init ---------------- */
+(async function init() {
+  applyStaticText();
+  await ensureSession();
+  await loadRoster();
+  await loadMyChecklist();
+})();
 </script>
 
 </body>
